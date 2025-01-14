@@ -4,3 +4,12 @@ INSTRUCCIONES:
 2-Mover dummy_display.sh a directorio Home
 3-Agregar dummy_display.sh como servicio startup
 4-Agregar AnyDesk Application como startup service
+
+
+INSTALAR ANYDESK: 
+1- Navegar al directorio donde esta el archivo .deb
+2- sudo dpkg -i anydesk_6.3.3-1_amd64.deb
+3- (si hay dependencias faltantes) sudo apt --fix-broken install
+4- Verificar instalacion -> anydesk
+
+
