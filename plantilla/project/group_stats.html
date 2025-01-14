@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control de Asistencia</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+    <div class="navbar">
+            <div class="row">
+                <div class="block4">
+                    <div class="row">
+                        <div class="block1"><img src="logo.gif"></div>
+                        <div class="block2"><p id="clave"></p></div>
+                    </div>
+                </div>
+                <div class="block4"><h1 id="nombre_escuela"></h1></div>
+                <div class="block4">
+                    <div class="row">
+                        <div class="block1">
+                            <a href="/"><img src="lupa.png" class="imagen_navbar"></a>
+                        </div>
+                        <form>
+                            <div class="block2">
+                                <label for="opciones">Grupo: </label>
+                                <select id="opciones_grupos" name="opciones" onchange="stats()">
+                                    <option value="1A">1A</option>
+                                    <option value="1B">1B</option>
+                                    <option value="1C">1C</option>
+                                    <option value="1D">1D</option>
+                                    <option value="1E">1E</option>
+                                    <option value="1F">1F</option>
+                                    <option value="1G">1G</option>
+                                    <option value="2A">2A</option>
+                                    <option value="2B">2B</option>
+                                    <option value="2C">2C</option>
+                                    <option value="2D">2D</option>
+                                    <option value="2E">2E</option>
+                                    <option value="2F">2F</option>
+                                    <option value="2G">2G</option>
+                                    <option value="3A">3A</option>
+                                    <option value="3B">3B</option>
+                                    <option value="3C">3C</option>
+                                    <option value="3D">3D</option>
+                                    <option value="3E">3E</option>
+                                    <option value="3F">3F</option>
+                                    <option value="3G">3G</option>
+                                </select>
+                            </div>
+                            <div class="block2">
+                                <label for="opciones">Turno: </label>
+                                <select id="opciones_turnos" name="opciones" onchange="stats()">
+                                    <option value="MATUTINO">MATUTINO</option>
+                                    <option value="VESPERTINO">VESPERTINO</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <br><br><br>
+    <div class="container">
+        <br>
+        <div class="row">
+            
+            <div class="block">
+                <h2>Alumno que mas falta</h2>
+                <img src="1.jpg" class="img_alumno" id="img_alumno">
+                <h3 id="nombre_alumno_mas_faltas"></h3>
+                <h4 id="matricula_mas_faltas"></h4>
+                <h4 id="faltas_de_alumno"></h4>
+            </div>
+            <div class="block">
+                <h2>Total de Faltas Hoy</h2>
+                <h3>15</h3>
+                <br>
+                <h2>Total de Faltas Hoy</h2>
+                <h3>15</h3>
+                <br>
+                <h2>Total de Faltas Hoy</h2>
+                <h3>15</h3>
+            </div>
+            <div class="block"> 
+                <h2>Faltas por mes</h2>
+
+            </div>
+        </div>
+
+        <div class="block5">
+            <h2>Faltas por Alumno</h2>
+            <canvas id="faltas_grupo" width="300" height="70"></canvas>
+        </div>
+        <br>
+        <div class="pie">
+            <p>Copyright © 2024 Cardify - Todos los derechos reservados.</p>
+        </div>
+    </div>
+
+<script src="group_stats.js"></script>
+<script src="atributos.js"></script>
+</body>
+</html> 

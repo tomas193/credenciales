@@ -1,0 +1,21 @@
+token:
+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
+
+inicializar git:
+git init
+
+añadir archivos:
+git add .
+
+commit: 
+git commit -m 'mensaje'
+
+conectar repositorio local con remoto:
+git remote add origin https...
+
+git branch -M main
+git push -u origin main
+
+
+nuevo branch: 
+git checkout -b nuevo-branch

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control de Asistencia</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+    <div class="navbar">
+            <div class="row">
+                <div class="block4">
+                    <div class="row">
+                        <div class="block1"><img src="logo.gif"></div>
+                        <div class="block2"><p id="clave"></p></div>
+                    </div>
+                </div>
+                <div class="block4"><h1 id="nombre_escuela"></h1></div>
+                <div class="block4">
+                    <form id="busqueda">
+                        <div class="row">
+                            <div class="block1">
+                                <input id="entrada" placeholder="Búsqueda por matricula"></input>
+                            </div>
+                            <div class="block2">
+                                <button type="submit" id="search">Buscar</button>
+                            </div>
+                            <div class="block2">
+                                <a href="/stats">
+                                    <img src="stats.png" class="imagen_navbar">
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+    </div>
+    <br><br><br><br>
+    <div class="container">
+        <br>
+        <div class="row">
+            <div class="block">
+                <h2>Total de Faltas</h2>
+                <h1 class="faltas" id="tot_faltas"></h1>
+            </div>
+            <div class="block">
+                <h2>Día que mas falta</h2>
+                <h1 class="faltas" id="dia_falta"></h1>
+            </div>
+            <div class="block">
+                <h2>Porcentaje de Asistencia</h2>
+                <h1 class="faltas" id="per_asis"></h1>
+            </div>
+            <div class="block">
+                <h2>Total dias de clase</h2>
+                <h1 class="faltas" id="faltas_trimestre"></h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="block3">
+                <div class="row">
+                    <div class="block">
+                        <h2>Datos del Alumno</h2>
+                        <img src="1.jpg" class="img_alumno" id="img_alumno">
+                        <h3 id="nombre_alumno"></h3>
+                        <p id="matricula_alumno"></p>
+                        <p id="grupo_alumno"></p>
+                        <p id="turno_alumno"></p>
+                        <p id="contacto_alumno"></p>
+                        <p id="correo_alumno"></p>
+                    </div>
+                    <div class="block">
+                        <h2>Mes con mas faltas</h2>
+                        <h1 class="faltas" id="mes_faltas">septiembre</h1>
+                    </div>
+                </div>
+                <BR>
+                <div class="contenido" id="contenido_indicador">
+                    <BR>
+                    <h1 id="indicador"></h1>
+                    <BR>
+                </div>
+            </div>
+            <div class="block">
+                <div class="row">
+                    <div class="block4">
+                        <p id="mes_anterior">febrero</p>
+                    </div>
+                    <div class="block4">
+                        <h2 id="mes_actual">marzo</h2>
+                    </div>
+                    <div class="block4">
+                        <p id="mes_posterior">abril</p>
+                    </div>
+                </div>
+                <div class="calendario">
+                    <table>
+                        <tr>
+                            <td><b>D</b></td>
+                            <td><b>L</b></td>
+                            <td><b>M</b></td>
+                            <td><b>M</b></td>
+                            <td><b>J</b></td>
+                            <td><b>V</b></td>
+                            <td><b>S</b></td>
+                        </tr>
+                        <tr>
+                            <td id="td1"></td>
+                            <td id="td2"></td>
+                            <td id="td3"></td>
+                            <td id="td4"></td>
+                            <td id="td5"></td>
+                            <td id="td6"></td>
+                            <td id="td7"></td>
+                        </tr>
+                        <tr>
+                            <td id="td8"></td>
+                            <td id="td9"></td>
+                            <td id="td10"></td>
+                            <td id="td11"></td>
+                            <td id="td12"></td>
+                            <td id="td13"></td>
+                            <td id="td14"></td>
+                        </tr>
+                        <tr>
+                            <td id="td15"></td>
+                            <td id="td16"></td>
+                            <td id="td17"></td>
+                            <td id="td18"></td>
+                            <td id="td19"></td>
+                            <td id="td20"></td>
+                            <td id="td21"></td>
+                        </tr>
+                        <tr>
+                            <td id="td22"></td>
+                            <td id="td23"></td>
+                            <td id="td24"></td>
+                            <td id="td25"></td>
+                            <td id="td26"></td>
+                            <td id="td27"></td>
+                            <td id="td28"></td>
+                        </tr>
+                        <tr>
+                            <td id="td29"></td>
+                            <td id="td30"></td>
+                            <td id="td31"></td>
+                            <td id="td32"></td>
+                            <td id="td33"></td>
+                            <td id="td34"></td>
+                            <td id="td35"></td>
+                        </tr>
+                        <tr>
+                            <td id="td36"></td>
+                            <td id="td37"></td>
+                            <td id="td38"></td>
+                            <td id="td39"></td>
+                        </tr>
+                    </table>
+                    <br>
+                </div>
+                <div class="row">
+                    <div class="indicador_falta">
+                        <table>
+                            <tr>
+                                <td><div class="c1"></div></td><td>asistió</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="indicador_falta">
+                        <table>
+                            <tr>
+                                <td><div class="c2"></div></td><td>no asistió</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="indicador_falta">
+                        <table>
+                            <tr>
+                                <td><div class="c4"></div></td><td>retardo</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="indicador_falta">
+                        <table>
+                            <tr>
+                                <td><div class="c3"></div></td><td>suspensión/vacaciones</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <br>
+            </div>
+        </div>
+    </div>
+    <div class="pie">
+        <p>Copyright © 2024 Cardify - Todos los derechos reservados.</p>
+    </div>
+
+<script src="funciones.js"></script>
+<script src="atributos.js"></script>
+</body>
+</html>

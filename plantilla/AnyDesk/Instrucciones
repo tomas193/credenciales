@@ -1,0 +1,6 @@
+INSTRUCCIONES:
+
+1-Mover dummy_display.py a directorio Home
+2-Mover dummy_display.sh a directorio Home
+3-Agregar dummy_display.sh como servicio startup
+4-Agregar AnyDesk Application como startup service
