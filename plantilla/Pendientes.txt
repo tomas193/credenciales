@@ -1,4 +1,2 @@
 -Crear un virtual environment que sea portable
--Crear startup service que inicie los scripts de node y python
 -Crear script que cada fin de semana revise los nuevos correos de forms y los meta a la base de datos
--Script que instale automaticamente anydesk, startup scripts, instale dependencias

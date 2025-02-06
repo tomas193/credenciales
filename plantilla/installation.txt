@@ -1,0 +1,9 @@
+Agregar como startup services: 
+
+dummy_display.sh (agregarlo solo cuando ya se tenga el anydeskID, computadora se convertira headless)
+startup.sh
+anydesk application
+
+
+chmod +x startup.sh
+sudo ./startup.sh

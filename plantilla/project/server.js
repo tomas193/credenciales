@@ -101,5 +101,5 @@ server.get('/group_stats',function(req,res){
 });
 
 server.listen(80,function(){
-	console.log('servidor corriendo');
+	console.log('server corriendo');
 });

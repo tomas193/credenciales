@@ -21,6 +21,8 @@ with open('calendario_escolar.json', 'r') as archivo:
 
 cola_alumnos=queue.Queue()
 
+print("Ingresar Matriculas: ")
+
 ahora_LA = datetime.now(pytz.timezone('America/Los_Angeles'))
 hora = int(ahora_LA.strftime("%H"))
 minutos = int(ahora_LA.strftime("%M"))

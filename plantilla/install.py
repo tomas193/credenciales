@@ -1,1 +1,0 @@
-print('installation script')
