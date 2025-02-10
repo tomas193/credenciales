@@ -24,7 +24,10 @@
                 <div class="block4">
                     <div class="row">
                         <div class="block2">
-                            <a href="/"><img src="lupa.png" class="imagen_navbar"></a>
+                            <button id="search">Búsqueda</button>
+                        </div>
+                        <div class="block2">
+                            <button id="modificacion_asistencia">Asistencia</button>
                         </div>
                     </div>
                 </div>
@@ -76,5 +79,10 @@
 
 <script src="stats.js"></script>
 <script src="atributos.js"></script>
+<script>
+    $('#search').click(function(){
+    window.location.href = '/';
+    });
+</script>
 </body>
 </html> 

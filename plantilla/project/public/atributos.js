@@ -5,5 +5,16 @@ $(document).ready(function(){
     clave.textContent='Clave: XXXXXXXXXX';
     nombre_escuela.textContent='Escuela Secundaria Técnica XX';
 
+    navigate();
 });
+
+function navigate(){
+    $('#general_stats').click(function(){
+        window.location.href = 'stats';
+    });
+    
+    $('#modificacion_asistencia').click(function(){
+    window.location.href = 'asistencia';
+    });
+}
 

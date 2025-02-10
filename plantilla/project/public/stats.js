@@ -31,8 +31,6 @@ function alumnos_mas_faltas(){
             }
         });
 
-        alert(alumno1['nombre']);alert(alumno2['nombre']);
-
         foto1.src=`${alumno1['matricula']}.png`
         foto2.src=`${alumno2['matricula']}.png`
         matricula_matutino.textContent='Matricula: '+alumno1['matricula']

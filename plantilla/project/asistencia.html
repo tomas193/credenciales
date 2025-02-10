@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,8 +24,11 @@
                 <div class="block4"><h1 id="nombre_escuela"></h1></div>
                 <div class="block4">
                     <div class="row">
-                        <div class="block1">
-                            <a href="/"><img src="lupa.png" class="imagen_navbar"></a>
+                        <div class="block2">
+                            <button id="general_stats">Estadísticas</button>
+                        </div>
+                        <div class="block2">
+                            <button id="search">Búsqueda</button>
                         </div>
                         <form>
                             <div class="block2">
@@ -68,35 +72,16 @@
     <br><br><br>
     <div class="container">
         <br>
-        <div class="row">
-            
-            <div class="block">
-                <h2>Alumno que mas falta</h2>
-                <img src="1.jpg" class="img_alumno" id="img_alumno">
-                <h3 id="nombre_alumno_mas_faltas"></h3>
-                <h4 id="matricula_mas_faltas"></h4>
-                <h4 id="faltas_de_alumno"></h4>
-            </div>
-            <div class="block">
-                <h2>Total de Faltas Hoy</h2>
-                <h3>15</h3>
-                <br>
-                <h2>Total de Faltas Hoy</h2>
-                <h3>15</h3>
-                <br>
-                <h2>Total de Faltas Hoy</h2>
-                <h3>15</h3>
-            </div>
-            <div class="block"> 
-                <h2>Faltas por mes</h2>
+        <div class="row" id="row1"></div>
+        <div class="row" id="row2"></div>
+        <div class="row" id="row3"></div>
+        <div class="row" id="row4"></div>
+        <div class="row" id="row5"></div>
+        <div class="row" id="row6"></div>
+        <div class="row" id="row7"></div>
+        <div class="row" id="row8"></div>
+        <div class="row" id="row9"></div>
 
-            </div>
-        </div>
-
-        <div class="block5">
-            <h2>Faltas por Alumno</h2>
-            <canvas id="faltas_grupo" width="300" height="70"></canvas>
-        </div>
         <br>
         <div class="pie">
             <p>Copyright © 2024 Cardify - Todos los derechos reservados.</p>
@@ -105,5 +90,10 @@
 
 <script src="group_stats.js"></script>
 <script src="atributos.js"></script>
+<script>
+    $('#search').click(function(){
+    window.location.href = '/';
+    });
+</script>
 </body>
 </html> 

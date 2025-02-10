@@ -1,96 +1,124 @@
-let faltasChart;  // Declarar fuera de las funciones, en el ámbito global de tu script
-
 $(document).ready(function() {
-    stats();  // Llamar a stats al cargar la página
+    count();  // Llamar a stats al cargar la página
 
     // Escuchar cambios en los selectores
     $('#opciones_grupos, #opciones_turnos').on('change', function() {
-        stats();  // Volver a llamar a stats cuando cambie el selector
+        count();
+        location.reload();
     });
-});
 
-function stats() {
-    const grupo = document.getElementById('opciones_grupos').value;
-    const turno = document.getElementById('opciones_turnos').value;
-    let labels = [];
-    let data = [];
-    let matriculas=[];
-
-    // Llamada a la API
-    axios.get('/api/test')
-        .then(response => {
-            const datos = response.data;
-            datos.forEach(alumnos => {
-                if (alumnos['grupo'] == grupo && alumnos['turno'] == turno) {
-                    labels.push(alumnos['nombre']);
-                    data.push(alumnos['faltas']);
-                    matriculas.push(alumnos['matricula']);
-                }
-            });
-
-            faltas_por_mes(matriculas);
-
-            const maximo_faltas=Math.max(...data);
-            let alumno_mas_faltas=data.indexOf(maximo_faltas);
-
-            nombre_alumno_mas_faltas=document.getElementById('nombre_alumno_mas_faltas');
-            matricula_mas_faltas=document.getElementById('matricula_mas_faltas');
-            faltas_de_alumno=document.getElementById('faltas_de_alumno');
-
-            nombre_alumno_mas_faltas.textContent=labels[alumno_mas_faltas];
-            matricula_mas_faltas.textContent=matriculas[alumno_mas_faltas];
-            faltas_de_alumno.textContent='Total de Faltas: '+data[alumno_mas_faltas];
-
-            var foto=document.getElementById('img_alumno');
-            foto.src=`${matriculas[alumno_mas_faltas]}.png`
-
-            // Destruir gráfica previa si existe
-            if (faltasChart) {
-                faltasChart.destroy();
-            }
-
-            // Crear la nueva gráfica
-            var ctx = document.getElementById('faltas_grupo').getContext('2d');
-            faltasChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Total de Faltas por Alumno',
-                        data: data,
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
+    function count() {
+        const grupo = document.getElementById('opciones_grupos').value;
+        const turno = document.getElementById('opciones_turnos').value;
+        let filtro; let size;
+    
+        axios.get('/api/test')
+            .then(response => {
+                const datos = response.data;
+                filtro = datos.filter(alumno => alumno.grupo == grupo && alumno.turno == turno);
+                size=filtro.length;
+                let blocks=Math.ceil(size/6);
+    
+                const totalBloques = 6;
+                for (let k=0;k<blocks;++k){
+                    const contenedor = document.getElementById(`row${k+1}`);
+                    for (let i = 0; i < totalBloques; i++) {
+                        let idx=i+(6*k);
+                        const bloqueHTML = `
+                            <div class="block">
+                                <br>
+                                <img src="1.jpg" class="img_alumno" id="img_alumno_${idx}">
+                                <h3 id="nombre_${idx}"></h3>
+                                <h4 id="matricula_${idx}"></h4>
+                                <button id="status_${idx}"></button>
+                                <br>
+                            </div>
+                        `;
+                        // Insertar el bloque en el contenedor
+                        contenedor.innerHTML += bloqueHTML;
                     }
                 }
+                assign_info(filtro);
+                update_assistance(filtro);
+            })
+            .catch(error => {
+                console.error('There was an error!', error);
             });
-        })
-        .catch(error => {
-            console.error('There was an error!', error);
-        });
-}
+    }
 
-function faltas_por_mes(matriculas_alumnos){
-    axios.get('/api/meses').then(response =>{
-        let meses=response.data;
-        let matriculas_meses=[];
-        meses.forEach(element => {
-            matriculas_meses.push(element['matricula']);
+    function update_assistance(alumnos){
+        for (let i=0;i<alumnos.length;++i){
+            $('#'+'status_'+i).click(function(){
+                update_db(alumnos[i]);
+                
+            });
+            $('#'+'img_alumno_'+i).click(function(){
+                //let campo_texto = document.getElementById('entrada').value;
+                //campo_texto.textContent='hola';
+                window.location.href = '/';
+            });
+        }
+    }
+    
+    function update_db(alumno){
+        let flag;
+        if (alumno['flag']==0){
+            flag=1;
+            update_dia(alumno);
+        }
+        else{
+            flag=0;
+            location.reload();
+        }
+    
+        $.post('/update_assistance', {flag:flag,matricula:alumno['matricula']}, function() {});
+    }
+
+    function update_dia(alumno){
+        const fecha = new Date();
+        const mesNumero = fecha.getMonth();
+        const diaNumero = fecha.getDate()-1;
+    
+        return axios.get('/api/meses')
+          .then(response => {
+            const filasFiltradas = response.data.filter(item => item.matricula === alumno['matricula']);
+            const primerFila = filasFiltradas[0];
+            const inputs = [primerFila.jan, primerFila.feb, primerFila.mar, primerFila.apr, primerFila.may, primerFila.jun, primerFila.jul,primerFila.aug,
+                primerFila.sep,primerFila.oct,primerFila.nov,primerFila.dec];
+            let split_numbers=inputs[mesNumero].split(',');
+            split_numbers[diaNumero]=1;
+            let dias_string=split_numbers.join();
+
+            $.post('/update_dia', {mes: mesNumero, string:dias_string, matricula:alumno['matricula']}, function() {});
+            location.reload();
+          
+          })
+          .catch(error => {
+            console.error('error cabron', error);
+            throw error;
         });
-        let meses_reales=[];
-        let indice;
-        matriculas_alumnos.forEach(matricula => {
-            indice=matriculas_meses.indexOf(matricula);
-        });
-    })
-    .catch(error =>{
-        console.error('There was an error!', error);
-    });
-}
+    }
+
+    function assign_info(alumnos){
+        for(let i=0;i<alumnos.length;++i){
+            let foto = document.getElementById('img_alumno_'+i);
+            let nombre = document.getElementById('nombre_'+i);
+            let matricula = document.getElementById('matricula_'+i);
+            let boton = document.getElementById('status_'+i);
+    
+            if(alumnos[i]['flag']==0){boton.textContent='entrar';}
+            else{boton.textContent='salir';}
+            
+            nombre.textContent=alumnos[i]['nombre'];
+            matricula.textContent=alumnos[i]['matricula'];
+            foto.src=`${matricula}.png`
+            
+        }
+    }
+
+});
+
+
+
+
+

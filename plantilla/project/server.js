@@ -78,13 +78,38 @@ server.get('/api/faltas_ves', (req, res) => {
 });
 
 server.get('/api/test', (req, res) => {
-  db.all("SELECT nombre,matricula,grupo,turno,faltas FROM alumnos order by turno, grupo, nombre", (err, rows) => {
+  db.all("SELECT nombre,matricula,grupo,turno,flag,faltas FROM alumnos order by turno, grupo, nombre", (err, rows) => {
     if (err) {
       console.error(err);
       res.status(500).json({ error: 'Error en la base de datos' });
       return;
     }
     res.send(rows);
+  });
+});
+
+server.post('/update_assistance', (req, res) => {
+  const { flag, matricula } = req.body;
+  db.run(`UPDATE alumnos SET flag = ? WHERE matricula = ?`, [flag, matricula], function(err) {
+      if (err) {
+          return res.status(500).send(err.message);
+      }
+      res.send(`Filas afectadas: ${this.changes}`);
+  });
+});
+
+let meses=['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'];
+
+server.post('/update_dia', (req, res) => {
+  const mes=req.body.mes;
+  const string=req.body.string;
+  const matricula=req.body.matricula;
+
+  db.run(`UPDATE meses SET ${meses[mes]} = ? WHERE matricula = ?`, string, matricula, function(err) {
+      if (err) {
+          return res.status(500).send(err.message);
+      }
+      res.send(`Filas afectadas: ${this.changes}`);
   });
 });
 
@@ -96,8 +121,8 @@ server.get('/stats',function(req,res){
 	res.sendFile(__dirname+'/'+'general_stats.html');	
 });
 
-server.get('/group_stats',function(req,res){
-	res.sendFile(__dirname+'/'+'group_stats.html');	
+server.get('/asistencia',function(req,res){
+	res.sendFile(__dirname+'/'+'asistencia.html');	
 });
 
 server.listen(80,function(){
