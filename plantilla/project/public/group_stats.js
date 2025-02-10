@@ -111,8 +111,7 @@ $(document).ready(function() {
             
             nombre.textContent=alumnos[i]['nombre'];
             matricula.textContent=alumnos[i]['matricula'];
-            foto.src=`${matricula}.png`
-            
+            foto.src=`${alumnos[i]['matricula']}.png`;
         }
     }
 

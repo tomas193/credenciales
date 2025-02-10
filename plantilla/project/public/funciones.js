@@ -43,7 +43,7 @@ $(document).ready(function(){
   $('#search').click(function(){
       var mt=document.getElementById('entrada').value;
       var foto=document.getElementById('img_alumno');
-      foto.src=`${mt}.png`
+      foto.src=`${mt}.png`;
       getData(mt);
       asign_colors(month,currentYear,mt);
       stats(month,currentYear,mt,currentDate);
