@@ -121,9 +121,13 @@ body{
 	font-size: 2.4vw;
 }
 .img_alumno{
-	width: 8vw;
-	height: 11vh;
+	width: 9w;
+	height: 17vh;
 	border-radius: 80px;
+}
+.dot{
+	width: 10px;
+	height: 10px;
 }
 .imagen_navbar{
 	width: 1vw;

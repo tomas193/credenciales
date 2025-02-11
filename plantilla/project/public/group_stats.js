@@ -1,10 +1,15 @@
 $(document).ready(function() {
-    count();  // Llamar a stats al cargar la página
+    count(); 
 
     // Escuchar cambios en los selectores
     $('#opciones_grupos, #opciones_turnos').on('change', function() {
         count();
-        location.reload();
+    });
+
+    document.addEventListener('click', function(event) {
+        if (event.target.id.startsWith('status_')) {
+            count();
+        }
     });
 
     function count() {
@@ -16,30 +21,39 @@ $(document).ready(function() {
             .then(response => {
                 const datos = response.data;
                 filtro = datos.filter(alumno => alumno.grupo == grupo && alumno.turno == turno);
-                size=filtro.length;
-                let blocks=Math.ceil(size/6);
-    
+                size = filtro.length;
+                let blocks = Math.ceil(size/6);
                 const totalBloques = 6;
-                for (let k=0;k<blocks;++k){
+
+                for (let k=0;k<9;++k){
                     const contenedor = document.getElementById(`row${k+1}`);
-                    for (let i = 0; i < totalBloques; i++) {
-                        let idx=i+(6*k);
-                        const bloqueHTML = `
-                            <div class="block">
-                                <br>
-                                <img src="1.jpg" class="img_alumno" id="img_alumno_${idx}">
-                                <h3 id="nombre_${idx}"></h3>
-                                <h4 id="matricula_${idx}"></h4>
-                                <button id="status_${idx}"></button>
-                                <br>
-                            </div>
-                        `;
-                        // Insertar el bloque en el contenedor
-                        contenedor.innerHTML += bloqueHTML;
+                    contenedor.innerHTML = '';
+                    if(k<blocks){
+                        for (let i = 0; i < totalBloques; i++) {
+                            let idx=i+(6*k);
+                            const bloqueHTML = `
+                                <div class="block">
+                                    <br>
+                                    <img src="1.jpg" class="img_alumno" id="img_alumno_${idx}">
+                                    <h3 id="nombre_${idx}"></h3>
+                                    <h4 id="matricula_${idx}"></h4>
+                                    <div class="row" id="dots_container">
+                                        <div class="block1"><img src="green_dot.png" class="dot" id="green_dot_${idx}"></div>
+                                        <div class="block1"><button id="status_${idx}"></button></div>
+                                        <div class="block1"><img src="red_dot.png" class="dot" id="red_dot_${idx}"></div>
+                                    </div>
+                                    <br>
+                                </div>
+                            `;
+                            // Insertar el bloque en el contenedor
+                            contenedor.innerHTML += bloqueHTML;
+                        }
                     }
                 }
+
                 assign_info(filtro);
                 update_assistance(filtro);
+
             })
             .catch(error => {
                 console.error('There was an error!', error);
@@ -50,12 +64,6 @@ $(document).ready(function() {
         for (let i=0;i<alumnos.length;++i){
             $('#'+'status_'+i).click(function(){
                 update_db(alumnos[i]);
-                
-            });
-            $('#'+'img_alumno_'+i).click(function(){
-                //let campo_texto = document.getElementById('entrada').value;
-                //campo_texto.textContent='hola';
-                window.location.href = '/';
             });
         }
     }
@@ -66,12 +74,10 @@ $(document).ready(function() {
             flag=1;
             update_dia(alumno);
         }
-        else{
-            flag=0;
-            location.reload();
-        }
+        else{flag=0;}
     
         $.post('/update_assistance', {flag:flag,matricula:alumno['matricula']}, function() {});
+
     }
 
     function update_dia(alumno){
@@ -90,7 +96,6 @@ $(document).ready(function() {
             let dias_string=split_numbers.join();
 
             $.post('/update_dia', {mes: mesNumero, string:dias_string, matricula:alumno['matricula']}, function() {});
-            location.reload();
           
           })
           .catch(error => {
@@ -105,9 +110,17 @@ $(document).ready(function() {
             let nombre = document.getElementById('nombre_'+i);
             let matricula = document.getElementById('matricula_'+i);
             let boton = document.getElementById('status_'+i);
+            let green_dot = document.getElementById('green_dot_'+i);
+            let red_dot = document.getElementById('red_dot_'+i);
     
-            if(alumnos[i]['flag']==0){boton.textContent='entrar';}
-            else{boton.textContent='salir';}
+            if(alumnos[i]['flag']==0){boton.textContent='entrar';
+                red_dot.style.display = 'block';
+                green_dot.style.display = 'none';
+            }
+            else{boton.textContent='salir';
+                green_dot.style.display = 'block';
+                red_dot.style.display = 'none';
+            }
             
             nombre.textContent=alumnos[i]['nombre'];
             matricula.textContent=alumnos[i]['matricula'];
@@ -116,8 +129,3 @@ $(document).ready(function() {
     }
 
 });
-
-
-
-
-
