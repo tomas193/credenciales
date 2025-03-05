@@ -21,17 +21,14 @@ with open('calendario_escolar.json', 'r') as archivo:
 
 cola_alumnos=queue.Queue()
 
-print("Ingresar Matriculas: ")
-
 ahora_LA = datetime.now(pytz.timezone('America/Los_Angeles'))
 hora = int(ahora_LA.strftime("%H"))
 minutos = int(ahora_LA.strftime("%M"))
-fecha_actual = ahora_LA.date()
+actual_date = ahora_LA.date()
 
-year=fecha_actual.year
-month=fecha_actual.month
-day=fecha_actual.day
-#dia_semana_iso = fecha_actual.isoweekday()
+year=actual_date.year
+month=actual_date.month
+day=actual_date.day
 
 dia='dia'+str(day)
 meses=['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec']
@@ -162,6 +159,7 @@ def procesar_elementos():
         ahora = completo.time()
         hora = int(completo.strftime("%H"))
         minutos = int(completo.strftime("%M"))
+        mes_actual = completo.month
         day_1 = completo.day
         hora_reset=datetime.strptime(datos['hora_reset'], "%H:%M").time()
         if  ahora >= hora_reset and (ahora < (datetime.combine(datetime.today(), hora_reset) + timedelta(minutes=1)).time()):
@@ -175,14 +173,12 @@ def procesar_elementos():
                 elemento = cola_alumnos.get() 
                 cursor.execute(f"SELECT flag, nombre, correo, turno,avoid_rep FROM alumnos WHERE matricula = ?",(elemento,))
                 rows = cursor.fetchall()
-                cursor.execute(f"SELECT {meses[month-1]} FROM meses WHERE matricula = ?",(elemento,))
+                cursor.execute(f"SELECT {meses[mes_actual-1]} FROM meses WHERE matricula = ?",(elemento,))
                 mes = cursor.fetchall()
                 flag,nombre,correo_destino,turno,avoid_rep=rows[0]
                 mes=mes[0][0]
                 hora1,hora2=datos['horas_retardo']
                 hora1=hora1.split(':'); hora2=hora2.split(':')
-                print(completo, day_1, hora, minutos)
-                nombre=nombre.replace(' *','')
                 if avoid_rep==0:
                     if flag==0:
                         mensaje=f"{nombre} ha ingresado al plantel."
@@ -197,7 +193,7 @@ def procesar_elementos():
                         dias=''
                         for i in mes:dias+=i+','
                         dias=dias[:-1]
-                        cursor.execute(f"UPDATE meses SET {meses[month-1]} = ? WHERE matricula = ?", (dias, elemento))
+                        cursor.execute(f"UPDATE meses SET {meses[mes_actual-1]} = ? WHERE matricula = ?", (dias, elemento))
 
                     else:
                         mensaje=f"{nombre} ha salido del plantel."
@@ -208,7 +204,7 @@ def procesar_elementos():
                         print(mensaje,'\t',correo_destino)
                         enviar_correo(correo_destino,"AVISO",mensaje)
                     else:
-                        print(mensaje)
+                        print(mensaje, ahora)
                 else:
                     print('avoiding rep:',nombre)
             except Exception as e:
@@ -227,6 +223,7 @@ while True:
             print('salir')
             break
         cola_alumnos.put(entrada)
+
     except:
     	print('credencial no valida')
 
