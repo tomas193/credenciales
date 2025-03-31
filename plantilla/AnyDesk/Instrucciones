@@ -1,9 +1,16 @@
 INSTRUCCIONES:
 
-1-Mover dummy_display.py a directorio Home
-2-Mover dummy_display.sh a directorio Home
-3-Agregar dummy_display.sh como servicio startup
-4-Agregar AnyDesk Application como startup service
+1- Mover dummy_display.py a directorio Home
+2- En dummy_display.py asegurarse de seleccionar la salida de video
+3- Mover dummy_display.sh a directorio Home
+4- Agregar dummy_display.sh como servicio startup
+5- Agregar AnyDesk Application como startup service
+6- Mover xorg.conf a etc/X11/
+7- Instalar dummy:
+	sudo apt update
+	sudo apt install xserver-xorg-video-dummy
+
+8- Asegurarse de estar en modo xorg y no wayland
 
 
 INSTALAR ANYDESK: 
