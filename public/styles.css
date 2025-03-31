@@ -1,0 +1,192 @@
+body{
+	background-color: rgb(240,240,242);
+
+}
+.navbar{
+	background-color: white;
+	text-align: center;
+	font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+	font-size: 84%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 100;
+	justify-content: center;
+	align-items: center;
+}
+.navbar img{
+	width: 4vw;
+	height: 6vh;
+	border-radius: 5px;
+}
+.navbar h1{
+	color: black;
+}
+.navbar p{
+	color: black;
+}
+.row{
+	display: flex;
+	justify-content: space-between;
+	height: auto;
+	width: auto;
+}
+.block{
+	margin: 10px;
+	width: 50%;
+	height: auto;
+	text-align: center;
+	font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+	font-size: 100%;
+	justify-content: center;
+	align-items: center;
+	border-radius: 5px;
+	background-color: white;
+	font-size: 0.7vw;
+}
+.block5{
+	margin: 10px;
+	width: 98%;
+	height: auto;
+	text-align: center;
+	font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+	font-size: 100%;
+	justify-content: center;
+	align-items: center;
+	border-radius: 5px;
+	background-color: white;
+	font-size: 0.7vw;
+	margin-left: 1%;
+	margin-right: 1%;
+}
+.block1{
+	display: flex;
+	margin: 10px;
+	width: 100%;
+	height: auto;
+	text-align: left;
+	justify-content: center;
+	align-items: center;
+	border-radius: 5px;
+}
+
+.block2{
+	display: flex;
+	margin: 10px;
+	width: 50%;
+	height: auto;
+	font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+	font-size: 100%;
+	justify-content: left;
+	align-items: center;
+	border-radius: 5px;
+}
+.block3{
+	margin: 10px;
+	width: 50%;
+	height: auto;
+	border-radius: 5px;
+}
+.block4{
+	width: 33%;
+	text-align: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+	font-size: 0.7vw;
+}
+.barra{
+	border-radius: 5px;
+}
+#entrada{
+	width: 100%;
+	border-radius: 40px;
+	height: 2vh;
+}
+.calendario{
+	border-radius: 5px;
+	justify-content: center;
+}
+.calendario table{
+	margin: 0 auto;
+	font-size: 1.7vw;
+}
+.calendario table td{
+	padding: 1vh 1vw;
+	border-radius: 5px;
+}
+.faltas{
+	font-size: 2.4vw;
+}
+.img_alumno{
+	width: 9w;
+	height: 17vh;
+	border-radius: 80px;
+}
+.dot{
+	width: 10px;
+	height: 10px;
+}
+.imagen_navbar{
+	width: 1vw;
+	height: 1vh;
+	border-radius: 80px;
+}
+.contenido{
+	background-color: white;
+	width: 100%;
+	text-align: center;
+	font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+	border-radius: 5px;
+}
+.pie{
+	background-color: #cfcfcf;
+	width: 100%;
+	text-align: center;
+	font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	position: fixed;
+	font-size: 1.4vh;
+}
+.pie p{
+	color: #505050;
+}
+.indicador_falta{
+	text-align: center;
+	width: 50%;
+	font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+.indicador_falta table{
+	margin: 0 auto;
+}
+.c1{
+	border-radius: 50%;
+	background-color: green;
+	width: 14px;
+	height: 14px;
+}
+.c2{
+	border-radius: 50%;
+	background-color: red;
+	width: 14px;
+	height: 14px;
+}
+.c3{
+	border-radius: 50%;
+	background-color: yellow;
+	width: 14px;
+	height: 14px;
+}
+.c4{
+	border-radius: 50%;
+	background-color: orange;
+	width: 14px;
+	height: 14px;
+}
+#indicador{
+	font-size: 3vh;
+}
