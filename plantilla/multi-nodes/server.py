@@ -5,6 +5,7 @@ from datetime import datetime,timedelta, date
 
 app = Flask(__name__)
 DB_PATH = "credenciales.db"
+meses=['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec']
 
 # Función para ejecutar consultas
 def query_db(query, args=(), one=False):
@@ -33,14 +34,17 @@ def update_flag():
 
 @app.route("/update_month", methods=["POST"])
 def update_month():
+    completo=datetime.now()
+    mes_actual = completo.month
     data = request.json
     dias_string = data.get("dias_string")
     matricula = data.get("matricula")
 
-    if not flag or not matricula:
+    if not dias_string or not matricula:
         return jsonify({"error": "Faltan datos"}), 400
 
-    query_db(f"UPDATE meses SET {meses[mes_actual-1]} = ? WHERE matricula = ?", (dias_string, matricula))
+    columna_mes = meses[mes_actual - 1]
+    query_db(f"UPDATE meses SET {columna_mes} = ? WHERE matricula = ?", (dias_string, matricula))
     return jsonify({"message": "Month Updated"}), 201
 
 
@@ -50,7 +54,6 @@ def get_users():
     mes_actual = completo.month
     
     matricula = request.args.get("matricula")
-    meses=['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec']
     
     if not matricula:
         return jsonify({"error": "Matrícula no proporcionada"}), 400
