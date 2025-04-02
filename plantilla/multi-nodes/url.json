@@ -1,0 +1,6 @@
+{
+    "url":"http://192.168.1.64:5000",
+    "query":"http://192.168.1.64:5000/alumnos",
+    "flag":"http://192.168.1.64:5000/update_flag",
+    "month":"http://192.168.1.64:5000/update_month"
+}
