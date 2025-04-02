@@ -21,9 +21,6 @@ with open('url.json', 'r') as archivo:
 
 meses=['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec']
 
-hilo_consumidor = threading.Thread(target=procesar_elementos)
-hilo_consumidor.start()
-
 cola_alumnos=queue.Queue()
 
 print("Servidor Cliente")
@@ -83,22 +80,26 @@ def procesar_elementos():
         if not cola_alumnos.empty():
             try:
                 matricula = cola_alumnos.get() 
-                alumno = {"matricula": matricula}
+                alumno = {"matricula": int(matricula)}
                 consulta = requests.get(query_data_url, params=alumno)
                 
-                datos = consulta.json()["datos"][0]
-                flag,nombre,correo_destino,turno,avoid_rep = datos
-                mes = consulta.json()["mes"][0][0]
-                
+                datos_alumno = consulta.json()
+                datos_alumno = datos_alumno["datos"][0]
+
+                flag,nombre,correo_destino,turno,avoid_rep = datos_alumno
+                mes = consulta.json()
+                mes = mes["mes"][0][0]
+
                 hora1,hora2=datos['horas_retardo']
                 hora1=hora1.split(':'); hora2=hora2.split(':')
+
                 if avoid_rep==0:
                     if flag==0:
                         mensaje=f"{nombre} ha ingresado al plantel."
                         
                         alumno["flag"] = 1 
                         update_flag = requests.post(update_flag_url, json=alumno)
-                        
+
                         mes=mes.split(',')            
                         if (turno=='MATUTINO' and ((int(hora)==int(hora1[0]) and minutos>=int(hora1[1])) or int(hora)>int(hora1[0]))):
                             mes[day_1-1]=str(3)
@@ -109,9 +110,10 @@ def procesar_elementos():
                         dias=''
                         for i in mes:dias+=i+','
                         dias=dias[:-1]
-                        
+                        print(dias)
                         alumno["dias_string"] = dias
                         update_month = requests.post(update_month_url, json=alumno)
+                        
 
                     else:
                         mensaje=f"{nombre} ha salido del plantel."
@@ -131,7 +133,8 @@ def procesar_elementos():
             cola_alumnos.task_done()  # Indicar que se ha procesado el elemento
         time.sleep(0.1)
     
-
+hilo_consumidor = threading.Thread(target=procesar_elementos)
+hilo_consumidor.start()
 
 while True:
     try:
