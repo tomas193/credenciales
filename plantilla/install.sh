@@ -13,6 +13,7 @@ sudo apt install python3-pip
 pip3 --version
 pip install pillow
 pip install opencv-python
+pip install flask
 pip install python-barcode
 pip install numpy
 pip install pytz
