@@ -79,6 +79,9 @@ def enviar_correo(destinatario,asunto,cuerpo):
     except Exception as e:
         print(f"Error al enviar el correo: {e}")
 
+
+enviar_correo("ingtom91@gmail.com","AVISO","Servidor tecnica 33 funcionando.")
+
 def reportes(hora_objetivo):
     archivo_csv = 'reporte.csv'
     print('\nfuncion de correo')
