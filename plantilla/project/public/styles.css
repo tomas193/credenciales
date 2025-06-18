@@ -32,6 +32,15 @@ body{
 	height: auto;
 	width: auto;
 }
+.column {
+  display: flex;
+  flex-direction: column; /* 🔑 Esto los acomoda verticalmente */
+  justify-content: center; /* Puedes usar center, space-between, etc. */
+  align-items: center;     /* Ajusta si quieres alinear horizontalmente */
+  height: auto;
+  width: 100%;
+}
+
 .block{
 	margin: 10px;
 	width: 50%;
@@ -43,6 +52,31 @@ body{
 	align-items: center;
 	border-radius: 5px;
 	background-color: white;
+	font-size: 0.7vw;
+}
+.block7{
+	margin: 10px;
+	width: 100%;
+	height: auto;
+	text-align: center;
+	font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+	font-size: 100%;
+	justify-content: center;
+	align-items: center;
+	border-radius: 5px;
+	background-color: white;
+	font-size: 0.7vw;
+}
+.block6{
+	margin: 10px;
+	width: 50%;
+	height: auto;
+	text-align: center;
+	font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+	font-size: 100%;
+	justify-content: center;
+	align-items: center;
+	border-radius: 5px;
 	font-size: 0.7vw;
 }
 .block5{
@@ -125,6 +159,16 @@ body{
 	height: 17vh;
 	border-radius: 80px;
 }
+.edit_user{
+	width: 4w;
+	height: 4vh;
+	border-radius: 80px;
+}
+.credencial{
+	width: 8w;
+	height: 15vh;
+	border-radius: 20px;
+}
 .dot{
 	width: 10px;
 	height: 10px;
@@ -189,4 +233,27 @@ body{
 }
 #indicador{
 	font-size: 3vh;
+}
+.form-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.form-row label {
+    width: 120px;
+    font-weight: bold;
+}
+
+.formulario_registro {
+    flex: 1;
+    padding: 8px;
+    font-size: 14px;
+}
+
+.nota {
+    font-size: 12px;
+    color: gray;
+    margin-top: -10px;
+    margin-bottom: 20px;
 }

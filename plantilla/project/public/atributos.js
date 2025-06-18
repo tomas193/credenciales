@@ -1,9 +1,11 @@
+let escuela = 33;
+
 $(document).ready(function(){
 
 	var clave = document.getElementById('clave');
     var nombre_escuela = document.getElementById('nombre_escuela');
     clave.textContent='Clave: XXXXXXXXXX';
-    nombre_escuela.textContent='Escuela Secundaria Técnica XX';
+    nombre_escuela.textContent='Escuela Secundaria Técnica '+escuela;
 
     navigate();
 });
@@ -17,4 +19,5 @@ function navigate(){
     window.location.href = 'asistencia';
     });
 }
+
 

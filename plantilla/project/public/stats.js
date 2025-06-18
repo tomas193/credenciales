@@ -32,7 +32,10 @@ function alumnos_mas_faltas(){
         });
 
         foto1.src=`${alumno1['matricula']}.png`
+        //asignar_imagen(alumno1['matricula'], foto1);
         foto2.src=`${alumno2['matricula']}.png`
+        //asignar_imagen(alumno2['matricula'], foto2);
+
         matricula_matutino.textContent='Matricula: '+alumno1['matricula']
         matricula_vespertino.textContent='Matricula: '+alumno2['matricula']
         nombre_matutino.textContent=alumno1['nombre'];

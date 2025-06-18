@@ -24,12 +24,6 @@
                 <div class="block4"><h1 id="nombre_escuela"></h1></div>
                 <div class="block4">
                     <div class="row">
-                        <div class="block2">
-                            <button id="general_stats">Estadísticas</button>
-                        </div>
-                        <div class="block2">
-                            <button id="search">Búsqueda</button>
-                        </div>
                         <form>
                             <div class="block2">
                                 <label for="opciones_grupos">Grupo: </label>
@@ -65,6 +59,17 @@
                                 </select>
                             </div>
                         </form>
+                        <div class="block2">
+                            <select id="selector_pagina" name="selector_pagina">
+                                <option>Seleccione</option>
+                                <option value="/asistencia">Asistencia por Grupo</option>
+                                <option value="/aviso">Avisos</option>
+                                <option value="/">Busqueda por Matricula</option>
+                                <option value="/stats">Estadísticas Generales</option>
+                                <option value="/personal">Personal</option>
+                                <option value="/registro">Registrar Alumno</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -89,6 +94,7 @@
 
 <script src="group_stats.js"></script>
 <script src="atributos.js"></script>
+<script src="page_selection.js"></script>
 <script>
     $('#search').click(function(){
     window.location.href = '/';

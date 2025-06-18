@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control de Asistencia</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+    <div class="navbar">
+            <div class="row">
+                <div class="block4">
+                    <div class="row">
+                        <div class="block1"><img src="logo.gif"></div>
+                        <div class="block2"><p id="clave"></p></div>
+                    </div>
+                </div>
+                <div class="block4"><h1 id="nombre_escuela"></h1></div>
+                <div class="block4">
+                    <div class="row">
+                        <div class="block1">
+
+                        </div>
+                        <div class="block2">
+
+                        </div>
+                        <div class="block2">
+                            <select id="selector_pagina" name="selector_pagina">
+                                <option>Seleccione</option>
+                                <option value="/asistencia">Asistencia por Grupo</option>
+                                <option value="/aviso">Avisos</option>
+                                <option value="/">Busqueda por Matricula</option>
+                                <option value="/stats">Estadísticas Generales</option>
+                                <option value="/personal">Personal</option>
+                                <option value="/registro">Registrar Alumno</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <br><br><br><br>
+    <div class="container">
+        <div class="column">
+            <br>
+            <div class="block">
+                <h2>Registrar Alumno</h2>
+                <div class="form-row">
+                    <label for="registro_nombre" id="label_registro_nombre">Nombre(s): </label>
+                    <input id="registro_nombre" class="formulario_registro" required></input>
+                </div>
+                <div class="form-row">
+                    <label for="registro_apellido" id="label_registro_apellido">Apellidos(s): </label>
+                    <input id="registro_apellido" class="formulario_registro" required></input>
+                </div>
+                <p class="nota">Nombre completo sin acentos.</p>
+
+                <div class="form-row">
+                    <label for="grupo_alumno_nuevo" id="label_grupo_alumno_nuevo">Grupo: </label>
+                    <select id="grupo_alumno_nuevo" name="grupo_alumno_nuevo" class="formulario_registro">
+                        <option value="1A">1A</option>
+                        <option value="1B">1B</option>
+                        <option value="1C">1C</option>
+                        <option value="1D">1D</option>
+                        <option value="1E">1E</option>
+                        <option value="1F">1F</option>
+                        <option value="1G">1G</option>
+                        <option value="2A">2A</option>
+                        <option value="2B">2B</option>
+                        <option value="2C">2C</option>
+                        <option value="2D">2D</option>
+                        <option value="2E">2E</option>
+                        <option value="2F">2F</option>
+                        <option value="2G">2G</option>
+                        <option value="3A">3A</option>
+                        <option value="3B">3B</option>
+                        <option value="3C">3C</option>
+                        <option value="3D">3D</option>
+                        <option value="3E">3E</option>
+                        <option value="3F">3F</option>
+                        <option value="3G">3G</option>
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <label for="turno_alumno_nuevo" id="label_turno_alumno_nuevo">Turno: </label>
+                    <select id="turno_alumno_nuevo" name="turno_alumno_nuevo" class="formulario_registro">
+                        <option value="MATUTINO">MATUTINO</option>
+                        <option value="VESPERTINO">VESPERTINO</option>
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <label for="padre_alumno_nuevo" id="label_padre_alumno_nuevo">Madre / Padre: </label>
+                    <input id="padre_alumno_nuevo" class="formulario_registro"></input>
+                </div>
+
+                <div class="form-row">
+                    <label for="registro_telefono" id="label_registro_telefono">Telefono: </label>
+                    <input id="registro_telefono" class="formulario_registro"></input>
+                </div>
+
+                <div class="form-row">
+                    <label for="registro_correo" id="labl_registro_correo">Correo: </label>
+                    <input id="registro_correo" value="test@gmail.com" class="formulario_registro"></input>
+                </div>
+                <p class="nota">Dejar el valor por defecto si no sabe el correo.</p>
+
+                <h3>Selecciona una imagen:</h3>
+                <input type="file" id="inputImagen" accept="image/*">
+                <br><br>
+                <img id="vistaPrevia" src="" alt="Vista previa" style="max-width: 300px; display: none;">
+
+
+                <button id="guardar_alumno" type="submit">Guardar</button>
+                <br><br>
+            </div>
+        </div>
+    </div>
+    <div class="pie">
+        <p>Copyright © 2024 Cardify - Todos los derechos reservados.</p>
+    </div>
+
+<script src="atributos.js"></script>
+<script src="page_selection.js"></script>
+<script src="registrar_alumno.js"></script>
+
+</body>
+</html>

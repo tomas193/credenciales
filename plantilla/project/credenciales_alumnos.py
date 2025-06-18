@@ -31,7 +31,7 @@ def barras(codigo):
     nombre_archivo = 'codigo_barras'
     archivo_imagen = codigo_barras.save(nombre_archivo,options=writer_options)
 
-def marco(permit,turno,grupo,nombre):
+def marco(permit,turno,grupo,nombre,matricula):
     imagen = Image.open("res1.jpg")
     dibujar = ImageDraw.Draw(imagen)
     coordenadas = edicion['coordenadas_marco_foto']
@@ -40,8 +40,10 @@ def marco(permit,turno,grupo,nombre):
     else:
         dibujar.rectangle(coordenadas, outline=(144, 238, 144), width=10)
     
+    ruta_id_matricula = os.path.join(f"id_matricula", f'{matricula}.png')
     ruta_completa = os.path.join(f"credenciales",turno,grupo, f'{nombre}.png')
     imagen.save(ruta_completa)
+    imagen.save(ruta_id_matricula)
 
 def recorte():
     imagen = Image.open('codigo_barras.png')
@@ -66,7 +68,7 @@ def escribir_datos(matricula,nombre,grupo,turno):
 
     # Dibujar sobre la imagen usando PIL
     draw = ImageDraw.Draw(imagen_pil)
-    font_path = 'ruta/a/tu/calibri.ttf'  # Ruta a la fuente Calibri
+    font_path = '/usr/share/fonts/truetype/crosextra/Carlito-Regular.ttf'  # Ruta a la fuente Calibri
     font_size = edicion['letra_info_size']
     font = ImageFont.truetype(font_path, font_size)
 
@@ -156,26 +158,36 @@ cursor.execute(edicion['SQL_COMMAND'])
 rows = cursor.fetchall()
 
 for i in rows:
+    print(i)
     nombre=i[2]
     grupo=i[3]; turno=i[4]; matricula=i[1]; permiso_salida=i[7]
     print(nombre, grupo) 
-    ruta=os.path.join(carpeta, archivos[int(i[10])-1])
-    imagen = cv2.imread(ruta)
-    alto, ancho = imagen.shape[:2]
-    fondo_blanco = cv2.imread('fondo_blanco.jpg')
-    fy,fx=fondo_blanco.shape[:2]
-    x,y=[(fx-ancho)//2, (fy-alto)//2]
-    pegar('fondo_blanco.jpg',ruta,(ancho-15, alto-15),(x,y),'centrar')
-    imagen = cv2.imread(ruta)
-    y1,y2,x1,x2=edicion['area_recorte']
-    recorte_img = imagen[y1:y2, x1:x2]
-    dimensiones = edicion['resize_foto_carpeta']
-    imagen_redimensionada = cv2.resize(recorte_img, dimensiones)
-    imagen_pil = Image.fromarray(imagen_redimensionada)
+    
+    try:
+        
+        ruta = os.path.join(carpeta, archivos[int(i[10])-1])
+        imagen = cv2.imread(ruta)
+        alto, ancho = imagen.shape[:2]
+        fondo_blanco = cv2.imread('fondo_blanco.jpg')
+        fy,fx=fondo_blanco.shape[:2]
+        x,y=[(fx-ancho)//2, (fy-alto)//2]
+        
+        pegar('fondo_blanco.jpg',ruta,(ancho-15, alto-15),(x,y),'centrar')
 
-    ruta_public=os.path.join(f"public", f'{matricula}.png')
-    cv2.imwrite(ruta_public, imagen_redimensionada)
+        imagen = cv2.imread(ruta)
+        y1,y2,x1,x2=edicion['area_recorte']
+        recorte_img = imagen[y1:y2, x1:x2]
+        dimensiones = edicion['resize_foto_carpeta']
+        imagen_redimensionada = cv2.resize(recorte_img, dimensiones)
+        imagen_pil = Image.fromarray(imagen_redimensionada)
+        ruta_public=os.path.join(f"public", f'{matricula}.png')
+        cv2.imwrite(ruta_public, imagen_redimensionada)
 
+    except Exception as e:
+        #print(e)
+        ruta_public=os.path.join(f"public", f'{1}.jpg')
+        print('foto camara no encontrada')
+    
     #generar credencial
     barras(matricula)
     recorte()
@@ -189,8 +201,15 @@ for i in rows:
     nombre=nombre.replace('Í','I')
     nombre=nombre.replace('Ó','O')
     nombre=nombre.replace('Ú','U')
+
     if edicion['marco']=='Y':
-        marco(permiso_salida,turno,grupo,nombre) #colorear marco de la foto 
+        marco(permiso_salida,turno,grupo,nombre,matricula) #colorear marco de la foto 
+    else:
+        imagen = Image.open("res1.jpg")
+        ruta_id_matricula = os.path.join(f"id_matricula", f'{matricula}.png')
+        ruta_completa = os.path.join(f"credenciales",turno,grupo, f'{nombre}.png')
+        imagen.save(ruta_completa)
+        imagen.save(ruta_id_matricula)
 
     ruta_grupos = os.path.join(f"fotos_grupos",turno,grupo, f'{nombre}.png')
     cv2.imwrite(ruta_grupos, imagen_redimensionada)

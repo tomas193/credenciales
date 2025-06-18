@@ -9,6 +9,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 	<link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="formulario_correo.css">
 
 </head>
 <body>
@@ -44,43 +45,36 @@
                 </div>
             </div>
     </div>
-    <br><br><br>
+    <br><br><br><br>
     <div class="container">
-        <br>
-        <div class="row">
-            
+        <div class="column">
+            <br>
             <div class="block">
-                <h2>Alumno que mas falta T.M.</h2>
-                <img src="1.jpg" class="img_alumno" id="img_alumno_mat">
-                <h3 id="nombre_matutino"></h3>
-                <h4 id="matricula_matutino"></h4>
-                <h4 id="faltas_matutino"></h4>
-                <h4 id="grupo_matutino"></h4>
-                
-            </div>
-            <div class="block">
-                <h2>Faltas por Turno</h2>
-                <canvas id="faltasChart" width="400" height="180"></canvas>
-            </div>
-            <div class="block"> 
-                <h2>Alumno que mas falta T.V.</h2>
-                <img src="1.jpg" class="img_alumno" id="img_alumno_ves">
-                <h3 id="nombre_vespertino"></h3>
-                <h4 id="matricula_vespertino"></h4>
-                <h4 id="faltas_vespertino"></h4>
-                <h4 id="grupo_vespertino"></h4>
-            </div>
+                <h2>Enviar Aviso a Padres de Familia</h2>
+                <div id="formularioContainer1"> <!-- Verificar css -->
+                    <h3>Enviar mensaje</h3>
 
-        </div>
-        <div class="row">
-            <div class="block">
-                <h2>Faltas por Grupo Turno Matutino</h2>
-                <canvas id="faltas_mat" width="350" height="120"></canvas>
+                    <form id="formularioCorreo">
 
-            </div>
-            <div class="block">
-                <h2>Faltas por Grupo Turno Vespertino</h2>
-                <canvas id="faltas_ves" width="350" height="120"></canvas>
+                        <label>Destinatario:<br>
+                            <input type="email" name="correo_destino" id="correo_destino" required>
+                        </label><br><br>
+
+                        <label>Asunto:<br>
+                            <input type="text" name="asunto_correo" id="asunto_correo" required>
+                        </label><br><br>
+
+                        <label>Mensaje:<br>
+                            <textarea name="text" required rows="5" cols="40" id="mensaje_correo" required></textarea>
+                        </label><br><br>
+
+                        <div id="botonesFormulario">
+                            <button type="submit">Enviar</button>
+                            <button type="button" onclick="cerrarFormulario()">Cancelar</button>
+                        </div>
+
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -88,13 +82,10 @@
         <p>Copyright © 2024 Cardify - Todos los derechos reservados.</p>
     </div>
 
-<script src="stats.js"></script>
 <script src="atributos.js"></script>
 <script src="page_selection.js"></script>
-<script>
-    $('#search').click(function(){
-    window.location.href = '/';
-    });
-</script>
+<script src="registrar_alumno.js"></script>
+<script src="escribir_correo.js"></script>
+
 </body>
-</html> 
+</html>

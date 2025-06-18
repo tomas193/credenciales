@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,12 +24,6 @@
                 <div class="block4"><h1 id="nombre_escuela"></h1></div>
                 <div class="block4">
                     <div class="row">
-                        <div class="block1">
-
-                        </div>
-                        <div class="block2">
-
-                        </div>
                         <div class="block2">
                             <select id="selector_pagina" name="selector_pagina">
                                 <option>Seleccione</option>
@@ -47,48 +42,22 @@
     <br><br><br>
     <div class="container">
         <br>
-        <div class="row">
-            
-            <div class="block">
-                <h2>Alumno que mas falta T.M.</h2>
-                <img src="1.jpg" class="img_alumno" id="img_alumno_mat">
-                <h3 id="nombre_matutino"></h3>
-                <h4 id="matricula_matutino"></h4>
-                <h4 id="faltas_matutino"></h4>
-                <h4 id="grupo_matutino"></h4>
-                
-            </div>
-            <div class="block">
-                <h2>Faltas por Turno</h2>
-                <canvas id="faltasChart" width="400" height="180"></canvas>
-            </div>
-            <div class="block"> 
-                <h2>Alumno que mas falta T.V.</h2>
-                <img src="1.jpg" class="img_alumno" id="img_alumno_ves">
-                <h3 id="nombre_vespertino"></h3>
-                <h4 id="matricula_vespertino"></h4>
-                <h4 id="faltas_vespertino"></h4>
-                <h4 id="grupo_vespertino"></h4>
-            </div>
-
-        </div>
-        <div class="row">
-            <div class="block">
-                <h2>Faltas por Grupo Turno Matutino</h2>
-                <canvas id="faltas_mat" width="350" height="120"></canvas>
-
-            </div>
-            <div class="block">
-                <h2>Faltas por Grupo Turno Vespertino</h2>
-                <canvas id="faltas_ves" width="350" height="120"></canvas>
-            </div>
+        <div class="row" id="row1"></div>
+        <div class="row" id="row2"></div>
+        <div class="row" id="row3"></div>
+        <div class="row" id="row4"></div>
+        <div class="row" id="row5"></div>
+        <div class="row" id="row6"></div>
+        <div class="row" id="row7"></div>
+        <div class="row" id="row8"></div>
+        <div class="row" id="row9"></div>
+        <br>
+        <div class="pie">
+            <p>Copyright © 2024 Cardify - Todos los derechos reservados.</p>
         </div>
     </div>
-    <div class="pie">
-        <p>Copyright © 2024 Cardify - Todos los derechos reservados.</p>
-    </div>
 
-<script src="stats.js"></script>
+<script src="group_stats.js"></script>
 <script src="atributos.js"></script>
 <script src="page_selection.js"></script>
 <script>

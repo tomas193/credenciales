@@ -124,8 +124,26 @@ $(document).ready(function() {
             
             nombre.textContent=alumnos[i]['nombre'];
             matricula.textContent=alumnos[i]['matricula'];
-            foto.src=`${alumnos[i]['matricula']}.png`;
+            //foto.src=`${alumnos[i]['matricula']}.png`;
+            asignarImagen(alumnos[i]['matricula'], foto);
         }
     }
 
 });
+
+function asignarImagen(matricula, foto){
+  const imagenUrl = `${matricula}.png`;
+
+  fetch(imagenUrl, { method: 'HEAD' })
+    .then(response => {
+      if (response.ok) {
+        foto.src = imagenUrl;
+      } else {
+        foto.src = '1.jpg';
+        console.log("La imagen no existe.");
+      }
+    })
+    .catch(error => {
+      console.log("Error al verificar la imagen:", error);
+    });
+}

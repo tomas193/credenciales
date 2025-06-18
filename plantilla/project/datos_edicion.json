@@ -1,21 +1,58 @@
 {
-    "coordenadas_marco_foto":[40,65,302,375],
-    "marco":"Y",
-
-    "letra_info_size":35,
-    "letra_nombre_size":40,
-    "posicion_matricula":[43,430],
-    "posicion_grupo":[345,430],
-    "posicion_turno":[548,430],
-    "posicion_apellidos":[330,255],
-    "posicion_nombre":[330,300],
-
-    "area_recorte":[80,1850, 600,2200],
-    "resize_foto_carpeta":[340, 380],
-    "resize_codigo_barras":[440,154],
-    "coordenadas_codigo_barras":[20,470],
-    "resize_foto_credencial":[253,299],
-    "coordenadas_foto_credencial":[45,70],
-
-    "SQL_COMMAND":"SELECT * FROM alumnos"
+  "coordenadas_marco_foto": [
+    40,
+    65,
+    302,
+    375
+  ],
+  "marco": "N",
+  "letra_info_size": 35,
+  "letra_nombre_size": 40,
+  "posicion_matricula": [
+    43,
+    430
+  ],
+  "posicion_grupo": [
+    345,
+    430
+  ],
+  "posicion_turno": [
+    548,
+    430
+  ],
+  "posicion_apellidos": [
+    330,
+    255
+  ],
+  "posicion_nombre": [
+    330,
+    300
+  ],
+  "area_recorte": [
+    100,
+    1700,
+    600,
+    2100
+  ],
+  "resize_foto_carpeta": [
+    340,
+    380
+  ],
+  "resize_codigo_barras": [
+    440,
+    154
+  ],
+  "coordenadas_codigo_barras": [
+    20,
+    470
+  ],
+  "resize_foto_credencial": [
+    253,
+    299
+  ],
+  "coordenadas_foto_credencial": [
+    45,
+    70
+  ],
+  "SQL_COMMAND": "SELECT * from alumnos where matricula = 24100133011000"
 }

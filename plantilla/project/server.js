@@ -3,9 +3,14 @@ var express=require('express');
 const multer = require('multer'); //carga de archivos
 const sqlite3 = require('sqlite3'); //libreria base de datos
 var server=express()
+const fs = require('fs');
+
+let raw = fs.readFileSync('datos_edicion.json');
 
 server.use(express.urlencoded({ extended: true })) //procesar correctamente los datos codificados en URL
 server.use(express.static('public')); //carpeta principal: public
+server.use('/id_matricula', express.static('id_matricula'));
+
 
 // Configura la conexión a la base de datos
 const db = new sqlite3.Database('credenciales.db');
@@ -88,6 +93,44 @@ server.get('/api/test', (req, res) => {
   });
 });
 
+server.get('/api/last_id', (req, res) => {
+  db.all("select id from alumnos order by id desc limit 1", (err, rows) => {
+    if (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Error en la base de datos' });
+      return;
+    }
+    res.send(rows);
+  });
+});
+
+server.post('/probar_url', (req, res) => {
+  const {query} = req.body;
+  let data = JSON.parse(raw);
+  
+  data.SQL_COMMAND = query;
+  
+  fs.writeFileSync('datos_edicion.json', JSON.stringify(data, null, 2));
+  console.log('json actualizado');
+});
+
+server.post('/registrar_alumno', (req, res) => {
+const { matricula, nombre, grupo, turno, telefono, correo, padre } = req.body;
+db.run(
+  "INSERT INTO alumnos (matricula, nombre, grupo, turno, flag, faltas, permiso_salida, telefono, correo, foto_id, foto_flag, nombre_padre, avoid_rep) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+  [matricula, nombre, grupo, turno, 0, 0, 0, telefono, correo, 0, 0, padre, 0],
+  function (err) {
+    if (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Error en la base de datos' });
+      return;
+    }
+    res.send(`Filas afectadas: ${this.changes}`);
+  }
+);
+
+});
+
 server.post('/update_assistance', (req, res) => {
   const { flag, matricula } = req.body;
   db.run(`UPDATE alumnos SET flag = ? WHERE matricula = ?`, [flag, matricula], function(err) {
@@ -95,6 +138,26 @@ server.post('/update_assistance', (req, res) => {
           return res.status(500).send(err.message);
       }
       res.send(`Filas afectadas: ${this.changes}`);
+  });
+});
+
+server.post('/actualizar_datos_alumno', (req, res) => {
+  const { grupo, turno, telefono, correo, matricula } = req.body;
+  db.run(`UPDATE alumnos SET grupo = ?, turno = ?, telefono = ?, correo = ? WHERE matricula = ?`, [grupo, turno, telefono, correo, matricula], function(err) {
+      if (err) {
+          return res.status(500).send(err.message);
+      }
+      res.send(`Filas afectadas: ${this.changes}`);
+  });
+});
+
+server.post('/eliminar_alumno', (req, res) => {
+  const { matricula } = req.body;
+  db.run(`DELETE from alumnos WHERE matricula = ?`, [matricula], function(err) {
+      if (err) {
+          return res.status(500).send(err.message);
+      }
+      res.send(`Alumno eliminado: ${this.changes}`);
   });
 });
 
@@ -124,6 +187,19 @@ server.get('/stats',function(req,res){
 server.get('/asistencia',function(req,res){
 	res.sendFile(__dirname+'/'+'asistencia.html');	
 });
+
+server.get('/registro',function(req,res){
+	res.sendFile(__dirname+'/'+'registrar_alumno.html');	
+});
+
+server.get('/aviso',function(req,res){
+	res.sendFile(__dirname+'/'+'aviso.html');	
+});
+
+server.get('/personal',function(req,res){
+	res.sendFile(__dirname+'/'+'personal.html');	
+});
+
 
 server.listen(80,function(){
 	console.log('server corriendo');

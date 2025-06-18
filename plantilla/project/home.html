@@ -9,6 +9,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 	<link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="formulario_correo.css">
 
 </head>
 <body>
@@ -30,10 +31,15 @@
                             <button id="search">Buscar</button>
                         </div>
                         <div class="block2">
-                            <button id="general_stats">Estadísticas</button>
-                        </div>
-                        <div class="block2">
-                            <button id="modificacion_asistencia">Asistencia</button>
+                            <select id="selector_pagina" name="selector_pagina">
+                                <option>Seleccione</option>
+                                <option value="/asistencia">Asistencia por Grupo</option>
+                                <option value="/aviso">Avisos</option>
+                                <option value="/">Busqueda por Matricula</option>
+                                <option value="/stats">Estadísticas Generales</option>
+                                <option value="/personal">Personal</option>
+                                <option value="/registro">Registrar Alumno</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -42,6 +48,36 @@
     <br><br><br><br>
     <div class="container">
         <br>
+
+  <div id="overlay"></div>
+
+        <!-- Formulario Enviar Correo -->
+        <div id="formularioContainer">
+            <h3>Enviar mensaje</h3>
+
+            <form id="formularioCorreo">
+
+            <label>Destinatario:<br>
+                <input type="email" name="correo_destino" id="correo_destino" required>
+            </label><br><br>
+
+            <label>Asunto:<br>
+                <input type="text" name="asunto_correo" id="asunto_correo" required>
+            </label><br><br>
+
+            <label>Mensaje:<br>
+                <textarea name="text" required rows="5" cols="40" id="mensaje_correo" required></textarea>
+            </label><br><br>
+
+            <div id="botonesFormulario">
+                <button type="submit">Enviar</button>
+                <button type="button" onclick="cerrarFormulario()">Cancelar</button>
+            </div>
+
+            </form>
+        </div>
+        <!------------------------------>
+
         <div class="row">
             <div class="block">
                 <h2>Total de Faltas</h2>
@@ -63,21 +99,99 @@
         <div class="row">
             <div class="block3">
                 <div class="row">
+                    <!-- Inicio Datos Alumno -->
                     <div class="block">
-                        <h2>Datos del Alumno</h2>
+                        <div class="row">
+                            <div class="block4">
+                                <img src="trash.png" class="edit_user" id="delete_user">
+                                <img src="mail.png" class="edit_user" id="write_mail">
+                            </div>
+                            <div class="block4">
+                                <h2>Datos del Alumno</h2>
+                            </div>
+                            <div class="block4">
+                                <img src="back.png" class="edit_user" id="back">
+                                <p id="label_editar">editar</p>
+                            </div>
+                        </div>
                         <img src="1.jpg" class="img_alumno" id="img_alumno">
                         <h3 id="nombre_alumno"></h3>
                         <p id="matricula_alumno"></p>
                         <p id="grupo_alumno"></p>
+
+                        <label for="editar_grupo" id="label_editar_grupo">Grupo: </label>
+                        <select id="editar_grupo" name="editar_grupo">
+                            <option value="1A">1A</option>
+                            <option value="1B">1B</option>
+                            <option value="1C">1C</option>
+                            <option value="1D">1D</option>
+                            <option value="1E">1E</option>
+                            <option value="1F">1F</option>
+                            <option value="1G">1G</option>
+                            <option value="2A">2A</option>
+                            <option value="2B">2B</option>
+                            <option value="2C">2C</option>
+                            <option value="2D">2D</option>
+                            <option value="2E">2E</option>
+                            <option value="2F">2F</option>
+                            <option value="2G">2G</option>
+                            <option value="3A">3A</option>
+                            <option value="3B">3B</option>
+                            <option value="3C">3C</option>
+                            <option value="3D">3D</option>
+                            <option value="3E">3E</option>
+                            <option value="3F">3F</option>
+                            <option value="3G">3G</option>
+                        </select>
+                        <br id="break0">
                         <p id="turno_alumno"></p>
+                        <br id="break1">
+                        <label for="editar_turno" id="label_editar_turno">Turno: </label>
+                        <select id="editar_turno" name="editar_turno">
+                            <option value="MATUTINO">MATUTINO</option>
+                            <option value="VESPERTINO">VESPERTINO</option>
+                        </select>
+                        <br id="break2">
                         <p id="contacto_alumno"></p>
+
+                        <br id="break3">
+                        <label for="editar_telefono" id="label_editar_telefono">Telefono: </label>
+                        <input id="editar_telefono"></input>
+
+                        <br id="break4">
                         <p id="correo_alumno"></p>
+
+                        <br id="break5">
+                        <label for="editar_correo" id="label_editar_correo">Correo: </label>
+                        <input id="editar_correo"></input>
+                        
+                        <br id="break6"><br id="break7">
+                        <button id="boton_guardar">Guardar</button>
+                        <br id="break8"><br id="break9">
                     </div>
-                    <div class="block">
-                        <h2>Mes con mas faltas</h2>
-                        <h1 class="faltas" id="mes_faltas">septiembre</h1>
+                    <!-- Fin Datos Alumno -->
+
+                    <!-- Contenedor -->
+                    <div class="block6">
+                        <!-- Columna -->
+                        <div class="column">
+                            <!-- Contenedor mes faltas -->
+                            <div class="block7">
+                                <h2>Mes con mas faltas</h2>
+                                <h1 class="faltas" id="mes_faltas">septiembre</h1>
+                            </div>
+                            <!-- Contenedor Credencial -->
+                            <div class="block7">
+                                <h2>Credencial</h2>
+                                <img src="id.png" class="credencial" id="credencial">
+                                <br><br>
+                                <button id="download_button">Descargar</button>
+                                <br><br>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                
                 <BR>
                 <div class="contenido" id="contenido_indicador">
                     <BR>
@@ -85,16 +199,17 @@
                     <BR>
                 </div>
             </div>
+            <!-- Inicio Calendario -->
             <div class="block">
                 <div class="row">
                     <div class="block4">
-                        <p id="mes_anterior">febrero</p>
+                        <p id="mes_anterior"></p>
                     </div>
                     <div class="block4">
-                        <h2 id="mes_actual">marzo</h2>
+                        <h2 id="mes_actual"></h2>
                     </div>
                     <div class="block4">
-                        <p id="mes_posterior">abril</p>
+                        <p id="mes_posterior"></p>
                     </div>
                 </div>
                 <div class="calendario">
@@ -194,6 +309,7 @@
                 </div>
                 <br>
             </div>
+            <!-- Fin Calendario -->
         </div>
     </div>
     <div class="pie">
@@ -202,5 +318,10 @@
 
 <script src="funciones.js"></script>
 <script src="atributos.js"></script>
+<script src="download_pic.js"></script>
+<script src="page_selection.js"></script>
+<script src="editar_datos_alumno.js"></script>
+<script src="escribir_correo.js"></script>
+
 </body>
 </html>
