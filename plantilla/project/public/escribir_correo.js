@@ -45,7 +45,7 @@ async function ejecutarPython(datos_correo) {
       mensaje: datos_correo[2]
     };
 
-    const respuesta = await fetch('http://localhost:5000/mailScript', {
+    const respuesta = await fetch('/mailScript', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

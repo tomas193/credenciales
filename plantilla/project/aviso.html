@@ -10,6 +10,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 	<link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="formulario_correo.css">
+    <link rel="stylesheet" href="formulario_avisos.css">
 
 </head>
 <body>
@@ -35,7 +36,7 @@
                                 <option>Seleccione</option>
                                 <option value="/asistencia">Asistencia por Grupo</option>
                                 <option value="/aviso">Avisos</option>
-                                <option value="/">Busqueda por Matricula</option>
+                                <option value="/">Buscar Alumno</option>
                                 <option value="/stats">Estadísticas Generales</option>
                                 <option value="/personal">Personal</option>
                                 <option value="/registro">Registrar Alumno</option>
@@ -47,45 +48,147 @@
     </div>
     <br><br><br><br>
     <div class="container">
-        <div class="column">
-            <br>
-            <div class="block">
-                <h2>Enviar Aviso a Padres de Familia</h2>
-                <div id="formularioContainer1"> <!-- Verificar css -->
-                    <h3>Enviar mensaje</h3>
+    <div class="avisos-section">
+        <!-- Botón para mostrar formulario -->
+        <div class="crear-aviso-btn">
+            <button id="btnMostrarFormulario" class="btn-crear" onclick="toggleFormulario()">
+                ✏️ Crear Nuevo Aviso
+            </button>
+        </div>
 
-                    <form id="formularioCorreo">
+        <!-- Formulario para crear nuevo aviso (inicialmente oculto) -->
+        <div class="crear-aviso" id="formularioContainer" style="display: none;">
+            <h3>📝 Crear Nuevo Aviso</h3>
+            <form id="formularioAviso">
+                <div class="form-group">
+                    <label for="titulo_aviso">Título del Aviso:</label>
+                    <input type="text" id="titulo_aviso" name="titulo_aviso" required placeholder="Ingrese el título del aviso">
+                </div>
+                
+                <div class="form-group">
+                    <label for="tipo_aviso">Tipo de Aviso:</label>
+                    <select id="tipo_aviso" name="tipo_aviso" required>
+                        <option value="">Seleccione el tipo</option>
+                        <option value="general">General</option>
+                        <option value="urgente">Urgente</option>
+                        <option value="informativo">Informativo</option>
+                        <option value="evento">Evento</option>
+                    </select>
+                </div>
 
-                        <label>Destinatario:<br>
-                            <input type="email" name="correo_destino" id="correo_destino" required>
-                        </label><br><br>
-
-                        <label>Asunto:<br>
-                            <input type="text" name="asunto_correo" id="asunto_correo" required>
-                        </label><br><br>
-
-                        <label>Mensaje:<br>
-                            <textarea name="text" required rows="5" cols="40" id="mensaje_correo" required></textarea>
-                        </label><br><br>
-
-                        <div id="botonesFormulario">
-                            <button type="submit">Enviar</button>
-                            <button type="button" onclick="cerrarFormulario()">Cancelar</button>
+                 <div class="form-group">
+                    <label for="destinatarios_aviso">Destinatarios:</label>
+                    <div class="destinatarios-container">
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="todos_los_grupos" onchange="toggleSelectorCustom()" checked>
+                            <strong>📢 Enviar a todos los grupos</strong>
+                        </label>
+                        
+                        <div class="selector-custom" id="selectorCustom">
+                            <label for="selector_grupos"><strong>Seleccionar grupos específicos:</strong></label>
+                            <select id="selector_grupos" onchange="agregarGrupo()">
+                                <option value="">-- Seleccione un grupo --</option>
+                                <optgroup label="🌅 Turno Matutino">
+                                    <optgroup label="&nbsp;&nbsp;1° Grado">
+                                        <option value="1AM">1AM</option>
+                                        <option value="1BM">1BM</option>
+                                        <option value="1CM">1CM</option>
+                                        <option value="1DM">1DM</option>
+                                        <option value="1EM">1EM</option>
+                                        <option value="1FM">1FM</option>
+                                        <option value="1GM">1GM</option>
+                                    </optgroup>
+                                    <optgroup label="&nbsp;&nbsp;2° Grado">
+                                        <option value="2AM">2AM</option>
+                                        <option value="2BM">2BM</option>
+                                        <option value="2CM">2CM</option>
+                                        <option value="2DM">2DM</option>
+                                        <option value="2EM">2EM</option>
+                                        <option value="2FM">2FM</option>
+                                        <option value="2GM">2GM</option>
+                                    </optgroup>
+                                    <optgroup label="&nbsp;&nbsp;3° Grado">
+                                        <option value="3AM">3AM</option>
+                                        <option value="3BM">3BM</option>
+                                        <option value="3CM">3CM</option>
+                                        <option value="3DM">3DM</option>
+                                        <option value="3EM">3EM</option>
+                                        <option value="3FM">3FM</option>
+                                        <option value="3GM">3GM</option>
+                                    </optgroup>
+                                </optgroup>
+                                <optgroup label="🌆 Turno Vespertino">
+                                    <optgroup label="&nbsp;&nbsp;1° Grado">
+                                        <option value="1AV">1AV</option>
+                                        <option value="1BV">1BV</option>
+                                        <option value="1CV">1CV</option>
+                                        <option value="1DV">1DV</option>
+                                        <option value="1EV">1EV</option>
+                                        <option value="1FV">1FV</option>
+                                        <option value="1GV">1GV</option>
+                                    </optgroup>
+                                    <optgroup label="&nbsp;&nbsp;2° Grado">
+                                        <option value="2AV">2AV</option>
+                                        <option value="2BV">2BV</option>
+                                        <option value="2CV">2CV</option>
+                                        <option value="2DV">2DV</option>
+                                        <option value="2EV">2EV</option>
+                                        <option value="2FV">2FV</option>
+                                        <option value="2GV">2GV</option>
+                                    </optgroup>
+                                    <optgroup label="&nbsp;&nbsp;3° Grado">
+                                        <option value="3AV">3AV</option>
+                                        <option value="3BV">3BV</option>
+                                        <option value="3CV">3CV</option>
+                                        <option value="3DV">3DV</option>
+                                        <option value="3EV">3EV</option>
+                                        <option value="3FV">3FV</option>
+                                        <option value="3GV">3GV</option>
+                                    </optgroup>
+                                </optgroup>
+                            </select>
+                            
+                            <div class="grupos-seleccionados" id="gruposSeleccionados">
+                                <p>No hay grupos seleccionados</p>
+                            </div>
+                            
+                            <button type="button" class="btn-limpiar" onclick="limpiarGrupos()">🗑️ Limpiar selección</button>
                         </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="contenido_aviso">Contenido del Aviso:</label>
+                    <textarea id="contenido_aviso" name="contenido_aviso" required placeholder="Escriba aquí el contenido del aviso..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <button type="submit" class="btn-primary">📤 Publicar Aviso</button>
+                    <button type="button" class="btn-secondary" onclick="cerrarFormulario()">❌ Cancelar</button>
+                </div>
+            </form>
+        </div>
 
-                    </form>
+        <!-- Lista de avisos existentes -->
+        <div class="avisos-lista">
+            <h3>📋 Avisos Publicados</h3>
+            <div id="listaAvisos">
+                <!-- Los avisos se cargarán aquí dinámicamente -->
+                <div class="no-avisos">
+                    <p>No hay avisos publicados aún. ¡Crea el primero!</p>
                 </div>
             </div>
         </div>
     </div>
-    <div class="pie">
-        <p>Copyright © 2024 Cardify - Todos los derechos reservados.</p>
-    </div>
+</div>
+
+<div class="pie">
+    <p>Copyright © 2024 Cardify - Todos los derechos reservados.</p>
+</div>
 
 <script src="atributos.js"></script>
 <script src="page_selection.js"></script>
-<script src="registrar_alumno.js"></script>
-<script src="escribir_correo.js"></script>
+<script src="avisos.js"></script>
 
 </body>
 </html>

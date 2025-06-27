@@ -6,6 +6,7 @@ var server=express()
 const fs = require('fs');
 
 let raw = fs.readFileSync('datos_edicion.json');
+let calendario = fs.readFileSync('calendario_escolar.json');
 
 server.use(express.urlencoded({ extended: true })) //procesar correctamente los datos codificados en URL
 server.use(express.static('public')); //carpeta principal: public
@@ -93,6 +94,17 @@ server.get('/api/test', (req, res) => {
   });
 });
 
+server.get('/api/personal', (req, res) => {
+  db.all("SELECT nombre, MIN(id) as id, puesto, matricula FROM personal WHERE puesto IS NOT NULL AND puesto != '' GROUP BY nombre;", (err, rows) => {
+    if (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Error en la base de datos' });
+      return;
+    }
+    res.send(rows);
+  });
+});
+
 server.get('/api/last_id', (req, res) => {
   db.all("select id from alumnos order by id desc limit 1", (err, rows) => {
     if (err) {
@@ -115,20 +127,66 @@ server.post('/probar_url', (req, res) => {
 });
 
 server.post('/registrar_alumno', (req, res) => {
-const { matricula, nombre, grupo, turno, telefono, correo, padre } = req.body;
-db.run(
-  "INSERT INTO alumnos (matricula, nombre, grupo, turno, flag, faltas, permiso_salida, telefono, correo, foto_id, foto_flag, nombre_padre, avoid_rep) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-  [matricula, nombre, grupo, turno, 0, 0, 0, telefono, correo, 0, 0, padre, 0],
-  function (err) {
-    if (err) {
-      console.error(err);
-      res.status(500).json({ error: 'Error en la base de datos' });
-      return;
-    }
-    res.send(`Filas afectadas: ${this.changes}`);
-  }
-);
-
+    // Remove unused query extraction
+    let data = JSON.parse(calendario);
+    const meses_calendario = [
+        data.jan,
+        data.feb,
+        data.mar,
+        data.apr,
+        data.may,
+        data.jun,
+        data.jul,
+        data.aug,
+        data.sep,
+        data.oct,
+        data.nov,
+        data.dec
+    ];
+    
+    const { matricula, nombre, grupo, turno, telefono, correo, padre } = req.body;
+    
+    // Use a transaction to ensure both inserts succeed or both fail
+    db.serialize(() => {
+        db.run("BEGIN TRANSACTION");
+        
+        // Insert student data
+        db.run(
+            "INSERT INTO alumnos (matricula, nombre, grupo, turno, flag, faltas, permiso_salida, telefono, correo, foto_id, foto_flag, nombre_padre, avoid_rep) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            [matricula, nombre, grupo, turno, 0, 0, 0, telefono, correo, 0, 0, padre, 0],
+            function (err) {
+                if (err) {
+                    console.error('Error inserting student:', err);
+                    db.run("ROLLBACK");
+                    res.status(500).json({ error: 'Error en la base de datos al registrar alumno' });
+                    return;
+                }
+                
+                // Insert months data - fix the parameters array
+                db.run(
+                    "INSERT INTO meses (matricula, jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    [matricula, ...meses_calendario], // Include matricula as first parameter
+                    function (err) {
+                        if (err) {
+                            console.error('Error inserting months:', err);
+                            db.run("ROLLBACK");
+                            res.status(500).json({ error: 'Error en la base de datos al registrar calendario' });
+                            return;
+                        }
+                        
+                        // Commit transaction and send success response
+                        db.run("COMMIT");
+                        res.json({ 
+                            success: true, 
+                            message: 'Alumno registrado exitosamente',
+                            student_rows: 1,
+                            calendar_rows: 1
+                        });
+                    }
+                );
+            }
+        );
+    });
 });
 
 server.post('/update_assistance', (req, res) => {
@@ -201,6 +259,6 @@ server.get('/personal',function(req,res){
 });
 
 
-server.listen(80,function(){
-	console.log('server corriendo');
+server.listen(3000, '127.0.0.1',function(){
+	console.log('Servidor Corriendo');
 });

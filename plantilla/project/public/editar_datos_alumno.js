@@ -59,7 +59,7 @@ function generar_credencial(){
 
 async function editar_credencial(){
 
-    const respuesta = await fetch('http://localhost:5000/generarCredencial', {
+    const respuesta = await fetch('/generarCredencial', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
